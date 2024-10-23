@@ -5,6 +5,6 @@
 
 class ImageHandler{
 public:
-    void readImg(const std::string& path, cv::Mat& result);
-    void showImg(const cv::Mat& img, const std::string& windowName);
+    void readImg(const std::string& path, cv::Mat& result) const;
+    void showImg(const cv::Mat& img, const std::string& windowName) const;
 };
