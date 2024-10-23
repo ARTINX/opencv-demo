@@ -49,7 +49,7 @@ export VCPKG_ROOT=<path_to_vcpkg>/scripts/buildsystems/vcpkg.cmake
 2. 进入windows中的vscode，点击左边的拓展图标
 3. 在上方的搜索框中输入”remote development”。点击第一个进行安装
 
-![](./img/image.png)
+<img src="./img/image2.png" width="80%">
 
 1. 点击左侧的小电脑图标，点击wsl进入。
 2. 此时左下角显示的内容应该带有WSL字样。
