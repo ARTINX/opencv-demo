@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(opencv-demo VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-message(${CMAKE_TOOLCHAIN_FILE})
 
 find_package(OpenCV CONFIG REQUIRED)
 
