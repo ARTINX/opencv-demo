@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake: config debug",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+				"-S ${workspaceFolder}",                      // 源代码文件夹
+				"-B ${workspaceFolder}/cmake-build-debug",    // 生成目标文件夹，可改（这是clion的默认文件夹，不建议和clion混用可能会出问题，要是报错了这个文件夹随便删）
+				"-D CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=1",
+				"-D CMAKE_BUILD_TYPE:STRING=Debug",           // 决定你编译的程序是debug还是release版本
+				"-D CMAKE_TOOLCHAIN_FILE=<path_to_vcpkg>/scripts/buildsystems/vcpkg.cmake" // vcpkg的工具链文件路径。修改<path_to_vcpkg>为你的vcpkg路径
+				// "-D CMAKE_CXX_COMPLIER=",                  // 报错CMAKE_CXX_COMPLIER时可以自己指定编译器目录
+				// "-G Ninja"                                    // 使用ninja或是make，不想装ninja可删掉这行
+			],
+			"detail": "CMake config task (debug)"
+        },
+        {
+			// 编译出来的是debug还是release不取决于这，取决于目标文件夹被创建时选择的是debug还是release，如果目标文件夹和前置任务对应那就取决于前置任务
+			"type": "shell",
+			"label": "CMake: build debug",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"${workspaceFolder}/cmake-build-debug",       // 目标文件夹，注意对应前置任务的目标文件夹，除非你知道自己在干什么
+				"--target",
+				"opencv-demo",
+				"-j",
+				"8"                                           // 同时进行的编译任务数，配置高可改高，过高可能会爆内存
+			],
+			"group": "build",
+			"problemMatcher": [
+				"$gcc"
+			],
+			"detail": "CMake build task (debug)",
+			"dependsOn": "CMake: config debug"                // 对应前置任务的lable
+		},
+
+    ]
+}
