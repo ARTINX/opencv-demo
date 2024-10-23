@@ -43,6 +43,8 @@ export VCPKG_ROOT=<path_to_vcpkg>/scripts/buildsystems/vcpkg.cmake
 
 # VSCode
 
+请先参考General部分的内容。
+
 ## WSL（optional）
 
 1. 如果你正在使用windows/wsl，请在windows中安装vscode
