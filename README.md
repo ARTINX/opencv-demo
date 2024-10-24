@@ -11,7 +11,7 @@ sudo apt update
 sudo apt-get install cmake make gcc gdb libdrm-dev libxxf86vm-dev libxt-dev xutils-dev flex bison xcb libx11-xcb-dev libxcb-glx0 libxcb-glx0-dev xorg-dev libxcb-dri2-0-dev libtool autoconf zip unzip git pip vim gnome-shell-extensions tweak curl gperf libegl1-mesa-dev nasm autoconf-archive libdbus-1-dev
 ```
 
-1. 在[nas](nas.artinx.club)上的/SynoDrive/00_视觉共享文件夹/EnvSetup路径下找到vcpkg_downloads_x64.zip，点击下载。
+1. 在[nas](nas.artinx.club)上的/SynoDrive/00_视觉共享文件夹/EnvSetup路径下找到vcpkg_downloads_x64.zip，点击下载。如果你的处理器架构是arm（m系列芯片的mac），请下载vcpkg_downloads_arm64.zip
 2. 在github中搜索vcpkg，clone到本地任意一个文件夹下。
 3. cd 进 vcpkg 文件夹。执行git checkout 2023.01.09 。
 4. 执行./bootstrap-vcpkg.sh。等待一会
@@ -92,7 +92,6 @@ ln -s cmake-build-debug/compile_commands.json .
 
 # CLion
 
-## Linux
 1. 在[CLion官网](https://www.jetbrains.com/clion/)下载CLion。此时你应该得到一个.tar.gz文件。
 
 2. 解压这个文件，进入bin文件夹，执行./clion.sh。
@@ -105,7 +104,3 @@ ln -s cmake-build-debug/compile_commands.json .
 4. 用CLion打开克隆的项目。依次选择`File | Settings | Build, Execution, Deployment | CMake`。在CMake options中添加复制下来的参数。
 
 5. 点击右上角的绿色箭头。此时你的CLion应该能够正常编译并运行项目。
-
-## MacOS
-
-TODO
