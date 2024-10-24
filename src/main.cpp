@@ -6,7 +6,7 @@
 int main(int, char**){
     cv::Mat src;
     ImageHandler imgHandler;
-    imgHandler.readImg("img/image-demo.png", src);
+    imgHandler.readImg("./img/image-demo.png", src);
     imgHandler.showImg(src, "Code");
     return 0;
 }
