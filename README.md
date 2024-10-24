@@ -92,4 +92,20 @@ ln -s cmake-build-debug/compile_commands.json .
 
 # CLion
 
+## Linux
+1. 在[CLion官网](https://www.jetbrains.com/clion/)下载CLion。此时你应该得到一个.tar.gz文件。
+
+2. 解压这个文件，进入bin文件夹，执行./clion.sh。
+
+3. 在[JetBrain官网](https://www.jetbrains.com/community/education/#students)中认证学生身份。南科大在读学生能够免费使用JetBrain旗下的所有IDE。
+
+4. 在general步骤中的vcpkg文件夹下打开命令行，执行`./vcpkg integrate install`。将输出的-D参数复制下来。
+<img src="./img/image4.png">
+
+4. 用CLion打开克隆的项目。依次选择`File | Settings | Build, Execution, Deployment | CMake`。在CMake options中添加复制下来的参数。
+
+5. 点击右上角的绿色箭头。此时你的CLion应该能够正常编译并运行项目。
+
+## MacOS
+
 TODO
