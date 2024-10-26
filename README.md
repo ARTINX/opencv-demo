@@ -19,7 +19,7 @@ sudo apt-get install cmake make gcc gdb libdrm-dev libxxf86vm-dev libxt-dev xuti
 6. 在vcpkg目录下，执行
 
 ```bash
-./vcpkg install opencv4
+./vcpkg install opencv4[contrib,ffmpeg]
 ```
 
 这个过程需要比较久。vcpkg会自动下载并编译opencv源码。
