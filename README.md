@@ -11,7 +11,7 @@ sudo apt update
 sudo apt-get install cmake make gcc gdb libdrm-dev libxxf86vm-dev libxt-dev xutils-dev flex bison xcb libx11-xcb-dev libxcb-glx0 libxcb-glx0-dev xorg-dev libxcb-dri2-0-dev libtool autoconf zip unzip git pip vim gnome-shell-extensions tweak curl gperf libegl1-mesa-dev nasm autoconf-archive libdbus-1-dev
 ```
 
-1. 在[nas](nas.artinx.club)上的/SynoDrive/00_视觉共享文件夹/EnvSetup路径下找到vcpkg_downloads_x64.zip，点击下载。如果你使用的是mac，请忽略。
+1. 在[nas](https://nas.artinx.club)上的/SynoDrive/00_视觉共享文件夹/EnvSetup路径下找到vcpkg_downloads_x64.zip，点击下载。如果你使用的是mac，请忽略。
 2. 在github中搜索vcpkg，clone到本地任意一个文件夹下。
 3. cd 进 vcpkg 文件夹。执行git checkout 2023.01.09 。
 4. 执行./bootstrap-vcpkg.sh。等待一会
