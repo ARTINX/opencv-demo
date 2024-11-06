@@ -42,7 +42,7 @@ find_package(OpenCV REQUIRED)
 # 在opencv-demo中执行
 mkdir build
 cd build
-cmake ..
+cmake .. -DCMAKE_TOOLDCHAIN_FILE=<PATH-TO-YOUR-VCPKG>/scripts/buildsystems/vcpkg.cmake
 ```
 
 2. 编译
