@@ -35,11 +35,23 @@ find_package(OpenCV REQUIRED)
 
 字样时，说明安装完成。
 
-1. 在~/.bashrc(或者~/.zshrc，如果你知道自己在做什么的话)中添加这样一行
+## 在命令行中运行
 
-```bash
-export VCPKG_ROOT=<path_to_vcpkg>/scripts/buildsystems/vcpkg.cmake
+1. 使用cmake构建项目
 ```
+# 在opencv-demo中执行
+mkdir build
+cd build
+cmake ..
+```
+
+2. 编译
+
+```
+make
+```
+
+接下来，你应该能够在opencv-demo/build目录下看到一个二进制文件。
 
 # VSCode
 
