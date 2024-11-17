@@ -14,7 +14,8 @@ include_directories(include)
 
 # set SRC_FILE to all cpp files in src folder
 file(GLOB_RECURSE SRC_FILES
-    "src/*.cpp")
+    "src/*.cpp",
+    "main.cpps")
 
 # tell cmake which file to compile
 add_executable(opencv-demo ${SRC_FILES})
