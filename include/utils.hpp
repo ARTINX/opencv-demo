@@ -1,5 +1,7 @@
 #pragma once
 
-#include <string_view>
+#include <string>
 
-void logInfo(const std::string_view& msg);
+void logInfo(const std::string& msg);
+void logError(const std::string& msg);
+void logWarning(const std::string& msg);

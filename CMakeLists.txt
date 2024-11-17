@@ -22,6 +22,17 @@ add_executable(opencv-demo ${SRC_FILES})
 # link opencv libs
 target_link_libraries(opencv-demo PRIVATE opencv_core opencv_videoio opencv_mcc opencv_calib3d opencv_tracking)
 
+# add HIK camera SDK
+if (DEFINED ENV{HIK_SDK})
+    target_include_directories(opencv-demo PRIVATE $ENV{HIK_SDK}/include)
+    target_link_directories(opencv-demo PRIVATE $ENV{HIK_SDK}/lib/64)
+    target_link_libraries(
+            opencv-demo PRIVATE MVGigEVisionSDK FormatConversion MvCameraControl
+            MediaProcess MVRender MvUsb3vTL)
+    add_compile_definitions("ARTINX_HIK")
+    message("USB3: Hik SDK found at $ENV{HIK_SDK}")
+endif()
+
 # Explain: 
 # path define in main.cpp is path reference to executable file, not prject's root path
 # so we create symlink to make executable file can find img 
@@ -29,5 +40,8 @@ add_custom_command(
         TARGET opencv-demo
         PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/img
-        $<TARGET_FILE_DIR:opencv-demo>/img)
+        $<TARGET_FILE_DIR:opencv-demo>/img
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/calibration
+        $<TARGET_FILE_DIR:opencv-demo>/calibration
+        )
 
