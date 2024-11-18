@@ -1,7 +1,11 @@
+#include <exception>
+#include <map>
+#include <string>
 #ifdef ARTINX_HIK
 #include <cstdint>
 #include <thread>
 #include <filesystem>
+#include <fstream>
 #include <glm/glm.hpp>
 #include "HikDriver.hpp"
 #include "utils.hpp"
@@ -14,16 +18,54 @@
         }                                                                                     \
     }
 
-HikDriver::HikDriver(std::function<void(cv::Mat&)>& imageCallBack) {
-    this->exposureTime = 0.005;
-    this->gain = 10.0;
+HikDriver::HikDriver(std::function<void(cv::Mat&)>& imageCallBack, const std::string& configPath) {
     this->imageCallBack = imageCallBack;
     showDriverVersion();
+    try {
+        readConfig(configPath);
+    } catch (std::exception& e) {
+        logWarning(fmt::format("Failed to read config file: {}. Use default exposure time and gain instead.", configPath));
+        this->exposureTime = 0.005;
+        this->gain = 10.0;
+    }
+    
     openCamera();
 }
 
 HikDriver::~HikDriver() {
     closeCamera();
+}
+
+void HikDriver::readConfig(const std::string& filePath) {
+    std::ifstream configFile(filePath);
+    std::map<std::string, std::string> configMap;
+
+    if (!configFile.is_open()) {
+        throw std::runtime_error("Unable to open configuration file: " + filePath);
+    }
+    logInfo(fmt::format("Opening config file: {}", filePath));
+    std::string line;
+    while (std::getline(configFile, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        size_t delimiterPos = line.find('=');
+        if (delimiterPos != std::string::npos) {
+            std::string key = line.substr(0, delimiterPos);
+            std::string value = line.substr(delimiterPos + 1);
+            key.erase(0, key.find_first_not_of(" \t"));
+            key.erase(key.find_last_not_of(" \t") + 1);
+            value.erase(0, value.find_first_not_of(" \t"));
+            value.erase(value.find_last_not_of(" \t") + 1);
+            configMap[key] = value;
+        } else {
+            std::cerr << "Skipping invalid line: " << line << std::endl;
+            throw std::runtime_error("Invalid configuration file format");
+        }
+    }
+    configFile.close();
+    this->exposureTime = std::stod(configMap["exposureTime"]);
+    this->gain = std::stod(configMap["gain"]);
 }
 
 void HikDriver::showDriverVersion() {

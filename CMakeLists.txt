@@ -47,5 +47,7 @@ add_custom_command(
         $<TARGET_FILE_DIR:opencv-demo>/img
         COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/calibration
         $<TARGET_FILE_DIR:opencv-demo>/calibration
+        COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/config
+        $<TARGET_FILE_DIR:opencv-demo>/config
         )
 

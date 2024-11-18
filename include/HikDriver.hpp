@@ -28,6 +28,7 @@ private:
     double gain;
 
     void showDriverVersion();
+    void readConfig(const std::string& filePath);
     void openCamera(uint32_t retryTimes = 1, Duration retryInterval = 0ms);
     static void newFrame(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
     void loadCalibration(const std::string& identifier, const uint32_t width, const uint32_t height,
@@ -36,7 +37,7 @@ private:
 
 
 public:
-    HikDriver(std::function<void(cv::Mat&)>& imageCallBack);
+    HikDriver(std::function<void(cv::Mat&)>& imageCallBack, const std::string& configPath);
     ~HikDriver();
 };
 
