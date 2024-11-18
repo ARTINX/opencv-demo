@@ -1,12 +1,15 @@
-#include <iostream>
+#include <functional>
 #include <opencv2/opencv.hpp>
 
-#include "ImgHandler.hpp"
+#include "HikDriver.hpp"
 
 int main(int, char**){
-    cv::Mat src;
-    ImageHandler imgHandler;
-    imgHandler.readImg("./img/image-demo.png", src);
-    imgHandler.showImg(src, "Code");
+    auto imageCallBack_ = [](cv::Mat& image) {
+        cv::imshow("Hik camera", image);
+        cv::waitKey(1);
+    };
+    std::function<void(cv::Mat&)> imageCallBack = imageCallBack_;
+    HikDriver driver(imageCallBack);
+    while (true) {}
     return 0;
 }

@@ -30,12 +30,13 @@ private:
     void showDriverVersion();
     void openCamera(uint32_t retryTimes = 1, Duration retryInterval = 0ms);
     static void newFrame(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser);
-    void loadCalibration(const std::string& identifier);
+    void loadCalibration(const std::string& identifier, const uint32_t width, const uint32_t height,
+                                const double fallbackFov = 30.0);
     void closeCamera();
 
 
 public:
-    HikDriver(const std::string& Identifier, std::function<void(cv::Mat&)>& imageCallBack);
+    HikDriver(std::function<void(cv::Mat&)>& imageCallBack);
     ~HikDriver();
 };
 

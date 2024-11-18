@@ -1,8 +1,11 @@
-#include "CameraParams.h"
 #ifdef ARTINX_HIK
+#include <cstdint>
 #include <thread>
+#include <filesystem>
+#include <glm/glm.hpp>
 #include "HikDriver.hpp"
 #include "utils.hpp"
+#include "CameraParams.h"
 
 #define CheckErrorCode(ERROR_CODE)                                                            \
     {                                                                                         \
@@ -11,7 +14,7 @@
         }                                                                                     \
     }
 
-HikDriver::HikDriver(const std::string& Identifier, std::function<void(cv::Mat&)>& imageCallBack) {
+HikDriver::HikDriver(std::function<void(cv::Mat&)>& imageCallBack) {
     this->exposureTime = 0.005;
     this->gain = 10.0;
     this->imageCallBack = imageCallBack;
@@ -49,7 +52,7 @@ void HikDriver::openCamera(uint32_t retryTimes, Duration retryInterval) {
     CheckErrorCode(MV_CC_OpenDevice(mCameraHandle, MV_ACCESS_Control));
     CheckErrorCode(MV_CC_GetImageInfo(mCameraHandle, &mImageInfo));
     logInfo(fmt::format("Resolution for {}: {} x {}", mCameraSerialNumber, mImageInfo.nWidthMax, mImageInfo.nHeightMax));
-    loadCalibration(mCameraSerialNumber);
+    loadCalibration(mCameraSerialNumber, mImageInfo.nWidthMax, mImageInfo.nHeightMax);
     CheckErrorCode(MV_CC_SetEnumValue(mCameraHandle, "ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF));
     CheckErrorCode(MV_CC_SetEnumValue(mCameraHandle, "ExposureMode", MV_EXPOSURE_MODE_TIMED));
     CheckErrorCode(MV_CC_SetFloatValue(mCameraHandle, "ExposureTime", this->exposureTime * 1.0e6));
@@ -67,11 +70,22 @@ void HikDriver::newFrame(unsigned char* pData, MV_FRAME_OUT_INFO_EX* pFrameInfo,
     driver->imageCallBack(bgr);
 }
 
-void HikDriver::loadCalibration(const std::string& identifier) {
-    cv::FileStorage fs("calibration/" + identifier + ".yaml", cv::FileStorage::READ);
-    fs["camera_matrix"] >> this->cameraMatrix;
-    fs["dist_coefficients"] >> this->distCoefficients;
-    fs.release();
+void HikDriver::loadCalibration(const std::string& identifier, const uint32_t width, const uint32_t height,
+                                const double fallbackFov) {
+    const auto inputFileName = "./calibration/" + identifier + ".xml";
+
+    const cv::FileStorage fs(inputFileName, cv::FileStorage::READ);
+    if(std::filesystem::exists(inputFileName) && fs.isOpened()) {
+        fs["camera_matrix"] >> this->cameraMatrix;
+        fs["distortion_coefficients"] >> this->distCoefficients;
+    } else {
+        logWarning(fmt::format("Failed to get calibration info for serial number {}. Use default fov {} instead.", identifier,
+                               fallbackFov));
+        this->cameraMatrix = (cv::Mat_<double>(3, 3) << width / 2.0 / std::tan(glm::radians(fallbackFov) / 2.0), 0,
+                        static_cast<double>(width) / 2.0, 0, height / 2.0 / std::tan(glm::radians(fallbackFov) / 2.0),
+                        static_cast<double>(height) / 2.0, 0, 0, 1);
+        this->distCoefficients = cv::Mat{};
+    }
 }
 
 void HikDriver::closeCamera() {

@@ -5,9 +5,11 @@ project(opencv-demo VERSION 0.1.0 LANGUAGES C CXX)
 # after adding following line, a compile_commands.json will be generated in build folder
 # you need to make a symlink to project's root path.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 17)
 
 # check opencv dependency
 find_package(OpenCV CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 # tell cmake where to find header files
 include_directories(include)
@@ -15,13 +17,14 @@ include_directories(include)
 # set SRC_FILE to all cpp files in src folder
 file(GLOB_RECURSE SRC_FILES
     "src/*.cpp",
-    "main.cpps")
+    "main.cpp")
 
 # tell cmake which file to compile
 add_executable(opencv-demo ${SRC_FILES})
 
 # link opencv libs
 target_link_libraries(opencv-demo PRIVATE opencv_core opencv_videoio opencv_mcc opencv_calib3d opencv_tracking)
+target_link_libraries(opencv-demo PRIVATE glm::glm)
 
 # add HIK camera SDK
 if (DEFINED ENV{HIK_SDK})
