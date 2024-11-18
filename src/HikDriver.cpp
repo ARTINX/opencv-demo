@@ -1,7 +1,7 @@
+#ifdef ARTINX_HIK
 #include <exception>
 #include <map>
 #include <string>
-#ifdef ARTINX_HIK
 #include <cstdint>
 #include <thread>
 #include <filesystem>
