@@ -37,7 +37,7 @@ if (DEFINED ENV{HIK_SDK})
     message("USB3: Hik SDK found at $ENV{HIK_SDK}")
 endif()
 
-# Explain: 
+# Explaination: 
 # path define in main.cpp is path reference to executable file, not prject's root path
 # so we create symlink to make executable file can find img 
 add_custom_command(
@@ -49,5 +49,5 @@ add_custom_command(
         $<TARGET_FILE_DIR:opencv-demo>/calibration
         COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_SOURCE_DIR}/config
         $<TARGET_FILE_DIR:opencv-demo>/config
-        )
+)
 
