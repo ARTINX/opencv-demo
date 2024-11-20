@@ -1,8 +1,41 @@
-# CMake + vcpkg环境安装指南
+# 仓库目录结构
+.
+|-- build 编译生成文件夹
+|-- calibration 相机标定文件
+|   |-- test.yaml 标定测试文件
+|   |-- <序列号>.yaml [自行添加]经相机标定后获得的，属于特定工业相机的相机标定文件
+|-- config 配置文件
+|   |-- hik_camera.conf 海康相机配置文件
+|-- config-vscode VSCode配置
+|   |-- launch.json 调试配置文件
+|   |-- tasks.json 任务配置文件
+|-- img 图像文件夹（用于文件注释）
+|-- include 头文件
+|-- src 源代码
+|-- .clang-format C/C++格式化配置文件
+|-- .gitignore Git忽略配置文件
+|-- CMake + vcpkg环境安装指南.md
+|-- CMakeLists.txt
+|-- main.cpp
+|-- README.md
+
+# 你的任务
+
+见`./project.md`.
+
+作业提交邮箱有改动，务必注意
+
+> 文件中的 `Ref: <path>` 为队内自瞄项目`aritnx-hub` [https://mirrors.sustech.edu.cn/git/artinx/artinx-hub] `<path>` 路径下相关功能模块，仅供参考
+> 
+> 鼓励参看其他RoboMaster视觉自瞄开源项目，可在 [https://bbs.robomaster.com/] 以自瞄，视觉等关键词查找。
+
+# How to Run
+
+## 环境安装指南(CMake + vcpkg)
 
 wsl用户建议vscode，其他用户**建议clion**。本文档会分别进行说明。
 
-# Genaral
+### Genaral
 
 1. 在命令行中执行
 
@@ -35,7 +68,7 @@ find_package(OpenCV REQUIRED)
 
 字样时，说明安装完成。
 
-## 在命令行中运行
+#### 在命令行中运行
 
 1. 使用cmake构建项目
 ```
@@ -53,11 +86,11 @@ make
 
 接下来，你应该能够在opencv-demo/build目录下看到一个二进制文件。
 
-# VSCode
+### VSCode
 
 请先参考General部分的内容。
 
-## WSL（optional）
+#### WSL（optional）
 
 1. 如果你正在使用windows/wsl，请在windows中安装vscode
 2. 进入windows中的vscode，点击左边的拓展图标
@@ -68,7 +101,7 @@ make
 1. 点击左侧的小电脑图标，点击wsl进入。
 2. 此时左下角显示的内容应该带有WSL字样。
 
-## MacOS/Linux/WSL
+#### MacOS/Linux/WSL
 
 1. 安装C/C++拓展
 2. 将提供的demo clone下来
@@ -85,7 +118,7 @@ git clone https://github.com/ARTINX/opencv-demo.git
 
 <img src="./img/image1.png" width="80%">
 
-## Optional: 代码报错/高亮工具: clangd
+#### Optional: 代码报错/高亮工具: clangd
 
 1. apt安装clangd, llvm, clang
 2. vscode安装clangd插件
@@ -102,7 +135,7 @@ ln -s cmake-build-debug/compile_commands.json .
 
 <br></br>
 
-# CLion
+### CLion
 
 1. 在[CLion官网](https://www.jetbrains.com/clion/)下载CLion。此时你应该得到一个.tar.gz文件。
 
@@ -116,3 +149,30 @@ ln -s cmake-build-debug/compile_commands.json .
 4. 用CLion打开克隆的项目。依次选择`File | Settings | Build, Execution, Deployment | CMake`。在CMake options中添加复制下来的参数。
 
 5. 点击右上角的绿色箭头。此时你的CLion应该能够正常编译并运行项目。
+
+
+## 运行程序
+
+1. 将得到的相机标定文件`<序列号>.yaml`放入`./calibration`中
+2. 在`.vscode/launch.json`中配置运行任务需要加载的config相对路径（如`"config/hik_camera.conf"`）并确认相关config的内容(如加载的`exposureTime`和`gain`值)
+   > 绝对路径：绝对路径是从文件系统的根目录开始，提供文件或目录的完整定位。
+   >
+   > 相对路径：相对路径是相对于当前工作目录的路径。
+3. 编译和运行项目
+
+
+# 源代码注释
+
+### src/HikDriver.cpp
+
+海康相机驱动类，通过对海康工业相机的SDK的调用实现调用海康工业相机。
+详见代码内注释
+
+### src/ImgHandler.cpp
+
+图片处理类，现有在本地读取图片方法和显示图片方法
+
+
+### src/utils.cpp
+
+工具函数集合，包含项目中常用的辅助函数.
