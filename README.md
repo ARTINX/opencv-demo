@@ -1,6 +1,6 @@
 # 仓库目录结构
+```markdown
 .
-|-- build 编译生成文件夹
 |-- calibration 相机标定文件
 |   |-- test.yaml 标定测试文件
 |   |-- <序列号>.yaml [自行添加]经相机标定后获得的，属于特定工业相机的相机标定文件
@@ -14,11 +14,11 @@
 |-- src 源代码
 |-- .clang-format C/C++格式化配置文件
 |-- .gitignore Git忽略配置文件
-|-- CMake + vcpkg环境安装指南.md
 |-- CMakeLists.txt
 |-- main.cpp
+|-- project.md
 |-- README.md
-
+```
 # 你的任务
 
 见`./project.md`.
