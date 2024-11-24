@@ -151,6 +151,10 @@ ln -s cmake-build-debug/compile_commands.json .
 5. 点击右上角的绿色箭头。此时你的CLion应该能够正常编译并运行项目。
 
 
+## (Optional) WSL 连接USB设备
+
+参见微软官方文档 https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb
+
 ## 运行程序
 
 1. 将得到的相机标定文件`<序列号>.yaml`放入`./calibration`中
